@@ -107,6 +107,65 @@
         2. ip는 변경될 수 있다.
     2. goole.com -> 192.168.1.2로 DNS server에 등록해놓으면 도메인명으로만 ip 주소로 접근할 수 있다.
     
+# URI
+<img src="https://blog.kakaocdn.net/dn/uyjWy/btq3mhTCpOy/dBYTP97rxsBMc8qS5hxqF0/img.png" alt="3 way handshake"></img>
+* Uniform Resource Identifier
+
+    1. `Uniform` 리소스 식별하는 통일된 방식
+    2. `Resource` 자원, URI로 식별할 수 있는 모든 것
+    3. `Identifier` 다른 항목과 구분하는데 필요한 정보
+
+    
+* URL
+  
+    1. `Locator` 리소스가 있는 위치를 지정
+    2. 대부분 우리가 웹 브라우저에서 사용하는 방식
+    3. ex) http://www.example.com/serch?idx=12&page=1
+    4. scheme://[userinfo@]host[:port][/path][?query][#fragment]
+        - `scheme`
+            1. 주로 프로토콜 사용
+            2. 어떤 방식으로 자원에 접근할 것인가 하는 규칙 (http, https, ftp)
+            3. http (80), https (443) 포트는 생략 가능
+        - `userinfo`
+            1. url에 사용자 정보를 포함해서 인증
+            2. 거의 사용하지 않음
+        - host
+            1. 도메인명 또는 IP 주소
+        - `port`
+            1. 접속 포트
+            2. 생략 가능
+        - `path`
+            1. 리소스 경로
+            2. 대부분 계층적 구조를 가짐 ex) /order/item/book
+        - `query`
+            1. key=value 형태
+            2. ?로 시작 &으로 추가
+            3. query parameter 혹은 query string으로 불림
+        - `fragment`
+            1. html 내부 북마크 등에 사용
+            2. server와 통신하는 정보는 아니고 html 내부에서 사용
+* URN
+    
+    1. `Name` 리소스에 이름을 부여
+    2. ex) book:isbn:72989
+    
+# 웹 브라우저 요청 흐름
+
+* https://www.google.com:443/search?q=hello&hl=ko 의 요청메세지
+    
+        GET /search?q=hello&hl=ko
+        HOST: www.google.com
+
+* 요청에 대한 응답 메세지
+        
+        HTTP/1.1 200 OK
+        Content-Type: text/html;charset=UTF-8
+        Content-Length: 3423
+
+        <html>
+            <body> ... </body>
+        </html>
+
 
 
 
