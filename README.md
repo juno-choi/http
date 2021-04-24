@@ -166,6 +166,132 @@
             <body> ... </body>
         </html>
 
+# HTTP란
+
+* HyperText Transfer Protocol
+
+    1. 최초에는 HTML과 TEXT를 전송하기 위해 고안됨
+    2. 현재는 image, 음성, 영상, 파일, json 등 거의 모든 형태의 데이터를 전송
+    
+    
+* HTTP 역사
+    1. HTTP/0.9 1991년 : GET만 지원, HTTP 헤더 지원하지 않음
+    2. HTTP/1.0 1996년 : 메서드, 헤더 추가
+    3. HTTP/1.1 1997년 : 가장 많이 사용되는 버전
+    4. HTTP/2   2015년 : 성능 개선
+    5. HTTP/3   진행중  : TCP 대신 UDP 사용 및 성능 개선  
+    
+
+# HTTP 특징
+* 클라이언트 서버 구조
+    1. request response 구조
+    2. client와 server를 서로 분리한 `독립적` 구조이며 client는 요청을 보내고 server는 응답을 대기하면서 요청에 대한 결과를 만들어 응답한다.
+    
+
+* Stateful, Stateless
+    1. Stateful 상태유지 프로토콜
+        
+        - client의 요청을 server 측면에서 항상 같은 server에서 요청을 받아 응답해야한다.
+        - server가 중간에 장애가 나면 client를 다시 처음부터 다른 server에 요청을 해야한다.
+       
+    2. Stateless 무상태 프로토콜
+        
+        - client의 요청을 server 측면에서 아무 server나 요청을 받아 응답한다.
+        - server가 중간에 장애가 나도 client는 다른 server를 사용하여 요청을 진행할 수 있다.
+        - 무상태로 설계하는 측면이 서비스 확장에 유리 
+        - 하지만 무상태로만 설계할 수 없는 경우가 존재
+            1. 무상태 ex) 로그인이 필요 없는 단순한 서비스 소개 화면
+            2. 상태 유지 ex) 로그인
+                + 일반적으로 브라우저 쿠키와 서버 세션등을 사용하여 상태를 유지
+                + 상태유지는 최소한만으로 사용
+        - 필요한 값이 많아질 수록 전송해야하는 데이터도 많아짐
+    
+* connectionless (비 연결성)
+
+        장점
+  
+        1. HTTP는 기본이 연결을 유지하지 않는 모델
+        2. 1시간 동안 수천명이 서비스를 사용해도 실제 서버로 요청을 보내는 요청은 그 수에 비해 현저히 작다
+        3. HTTP에서는 요청이 들어왔을 때 결과 값을 반환하고 연결을 끊는다.
+        4. 자원의 소모가 적다.
+    
+
+        단점
+
+        1. TCP/IP 연결을 새로 맺어야함 - 3 way handshake를 다시 해야함
+        2. HTML 뿐만 아니라 javascirpt, css, image 등 수 많은 자료를 연결될 때마다 다운로드
+        3. HTTP 지속 연결 (Persistent Connections)로 문제 해결
+        4. HTTP2/HTTP3 에서 개선
+
+* HTTP 메세지
+
+<img src="https://blog.kakaocdn.net/dn/tWPRN/btq3ncYz5Cr/cf4pEkDQmybrtKztmWhixK/img.png" alt="3 way handshake"></img>
+       
+1. 요청 메세지 - 시작라인
+
+    1. start-line = `request-line`
+    2. `request-line` 'http method' + '(공백)' + '/' + '요청대상' + '(공백)' + '/' + 'version' 의 구조
+            
+        - `http method` 
+            
+            종류 : get, post, put, delete
+            
+            get - 조회
+          
+            post - 요청
+
+        - `요청대상`
+          
+            절대경로(/)?query
+        
+        - `version`
+          
+            HTTP의 version
+    
+
+2. 응답 메세지 - 시작라인
+    
+    1. start-line = `status-line`
+    2. `status-line` 'version' + '/' + status-code + '/' + 'reason-phrase'
+    
+        - `version`
+          
+            HTTP version
+            
+        - `status-code`
+            
+            200 : 성공
+          
+            400 : 클라이언트 요청 오류
+          
+            500 : 서버 내부 오류
+          
+        - `reason=phrase`
+            
+            사람이 이해할 수 있는 짧은 설명
+
+
+3. HTTP HEADER
+
+    1. header-field - field-name":"`OWS`field-value`OWS`    (OWS:띄어쓰기 허용)
+    2. filed-name은 대소문자 구분이 없음
+    3. 용도
+        - HTTP 전송에 필요한 모든 부가정보
+        - 표준 헤더가 존재함
+        - 필요시 임의의 헤더 추가 가능
+    
+
+4. HTTP 메세지 바디
+    
+    1. 실제 전송할 데이터
+    2. HTML, image, 음성, 파일 등
+    
+
+5. HTTP는 매우 단순하며 확장도 가능함
+
+
+
+
 
 
 
