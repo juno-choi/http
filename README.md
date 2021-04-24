@@ -100,3 +100,14 @@
     2. 0 ~ 65535 까지 사용이 가능하지만 0 ~ 1023은 잘 알려진 port로 사용하지 않는 것이 좋다.
 
 # DNS
+
+* Dmain Name System (도메인 네임 시스템)
+    1. ip의 단점을 보완
+        1. ip는 기억하기 어렵다
+        2. ip는 변경될 수 있다.
+    2. goole.com -> 192.168.1.2로 DNS server에 등록해놓으면 도메인명으로만 ip 주소로 접근할 수 있다.
+    
+
+
+
+`출처` https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/lecture/61370?tab=curriculum
