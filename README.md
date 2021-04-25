@@ -290,9 +290,86 @@
 5. HTTP는 매우 단순하며 확장도 가능함
 
 
+# HTTP 메서드
+
+* HTTP 설계
+    1. <span style="color:red">회원</span> 목록 `조회`  
+       `get` <span style="color:red">/members</span>
+    2. <span style="color:red">회원</span> `조회`  
+       `get` <span style="color:red">/members</span>/{id}   
+    3. <span style="color:red">회원</span> `등록`  
+       `post`  <span style="color:red">/members</span>/{id}   
+    4. <span style="color:red">회원</span> `수정`  
+       `put` <span style="color:red">/members</span>/{id}
+    5. <span style="color:red">회원</span> `삭제`  
+       `delete` <span style="color:red">/members</span>/{id}
+    
+
+* 요구사항에 따른 URI 설계
+    1. API URI는 resource를 먼저 식별하고 resource를 가지고 설계해야함
+    2. 요구사항에 따른 resource는 <span style="color:red">회원</span>이 resource가 됨 
+    3. resource와 행동을 분리하여 리소스는 URI가 되고 행위(`조회`,`등록`,`수정`,`삭제`)는 메서드가 됨
+    
+
+* 메서드의 종류
+    
+    - 주로 사용되는 메서드
+
+    `GET`   조회
+    
+    1. 서버에 전달하고 싶은 데이터는 QUERY를 통해 전달
+    2. 메세지 바디를 사용하여 데이터를 전달할 수 있지만 권장하지 않음
+  
+    `POST`  요청, 등록
+
+    1. 메세지 바디를 통해 서버로 데이터 전달
+    2. 주로 데이터 신규 등록, 프로세스에 사용
+    3. 프로세스는 예로 주문에서 결제완료 -> 배달시작 처럼 값변경을 넘어 프로세스의 상태가 변경되는 경우에 사용됨
+    
+    `PUT`   대체
+
+    1. 리소스를 완전히 대체 (기존 리소스의 중복되는 내용일지라도 모든 필드값을 그대로 입력해야함)
+    2. 없으면 생성
+    3. `POST`와 차이점은 클라이언트가 리소스 위치를 알고 URI 지정하여 사용
+
+    `PATCH` 부분 변경
+    
+    1. 리소스를 부분적으로 변경 (`put`과 다르게 부분적인 필드값만 보내면 해당 필드만 수정됨)
+
+    `DELETE`    삭제
+    
+    1. 리소스 제거
+
+    - 기타 메서드
+
+    `HEAD`  GET과 동일하지만 상태줄과 헤더만 반환
+    
+    `OPTIONS`   대상 리소스에 통신 가능 옵션을 설명
+
+    `CONNECT`   대상 자원으로 식별되는 서버에 대한 터널 설정
+    
+    `TRACE` 리소스 경로를 따라 메세지 루프백 테스트 수행
 
 
+* HTTP 메서드 속성
 
-
+    1. Safe Method `안전`
+    
+        - 호출해도 리소스를 변경하지 않는다.
+        - `GET` , `HEAD`
+    
+    2. Idempotent Method `멱등`
+    
+        - 한번 호출하든 두번 호출하든 100번 호출하든 결과가 똑같다.
+        - `GET` , `PUT` , `DELETE`
+        - PUT은 리소스 자체를 완전히 대체하기 때문에 같은 요청을 계속해서 반복하면 같은 리소스가 대체되는 것이기때문에 동일하다.
+        - `멱등`이 필요한 이유는 `멱등`한 메서드는 몇번을 호출해도 결과가 동일하고 리소스에 미치는 영향이 동일하기 때문에 서버 내부의 이유로 정상 응답을 못 주었을 때, 클라이언트가 같은 요청을 동일하게 반복해도 되는지에 대한 판단 근거가 될 수 있다.
+    
+    3. cacheable Method `캐시가능`
+    
+        - 웹 브라우저에 똑같은 리소스를 또 다운로드 하지 않고 웹 브라우저 자체에 캐시로 저장하여 사용
+        - `GET` , `HEAD` , `POST` , `PATCH` 
+        - 실제로는 `GET` , `HEAD` 정도만 캐시로 사용
+            1. `POST` , `PATCH`  는 본문 내용까지 캐시 키로 고려해야하는데 구현이 쉽지 않다.
 
 `출처` https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/lecture/61370?tab=curriculum
