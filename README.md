@@ -315,40 +315,40 @@
     
     - 주로 사용되는 메서드
 
-    `GET`   조회
+        `GET`   조회
+        
+        1. 서버에 전달하고 싶은 데이터는 QUERY를 통해 전달
+        2. 메세지 바디를 사용하여 데이터를 전달할 수 있지만 권장하지 않음
+      
+        `POST`  요청, 등록
     
-    1. 서버에 전달하고 싶은 데이터는 QUERY를 통해 전달
-    2. 메세지 바디를 사용하여 데이터를 전달할 수 있지만 권장하지 않음
-  
-    `POST`  요청, 등록
-
-    1. 메세지 바디를 통해 서버로 데이터 전달
-    2. 주로 데이터 신규 등록, 프로세스에 사용
-    3. 프로세스는 예로 주문에서 결제완료 -> 배달시작 처럼 값변경을 넘어 프로세스의 상태가 변경되는 경우에 사용됨
+        1. 메세지 바디를 통해 서버로 데이터 전달
+        2. 주로 데이터 신규 등록, 프로세스에 사용
+        3. 프로세스는 예로 주문에서 결제완료 -> 배달시작 처럼 값변경을 넘어 프로세스의 상태가 변경되는 경우에 사용됨
+        
+        `PUT`   대체
     
-    `PUT`   대체
-
-    1. 리소스를 완전히 대체 (기존 리소스의 중복되는 내용일지라도 모든 필드값을 그대로 입력해야함)
-    2. 없으면 생성
-    3. `POST`와 차이점은 클라이언트가 리소스 위치를 알고 URI 지정하여 사용
-
-    `PATCH` 부분 변경
+        1. 리소스를 완전히 대체 (기존 리소스의 중복되는 내용일지라도 모든 필드값을 그대로 입력해야함)
+        2. 없으면 생성
+        3. `POST`와 차이점은 클라이언트가 리소스 위치를 알고 URI 지정하여 사용
     
-    1. 리소스를 부분적으로 변경 (`put`과 다르게 부분적인 필드값만 보내면 해당 필드만 수정됨)
-
-    `DELETE`    삭제
+        `PATCH` 부분 변경
+        
+        1. 리소스를 부분적으로 변경 (`put`과 다르게 부분적인 필드값만 보내면 해당 필드만 수정됨)
     
-    1. 리소스 제거
+        `DELETE`    삭제
+        
+        1. 리소스 제거
 
     - 기타 메서드
 
-    `HEAD`  GET과 동일하지만 상태줄과 헤더만 반환
+        `HEAD`  GET과 동일하지만 상태줄과 헤더만 반환
+        
+        `OPTIONS`   대상 리소스에 통신 가능 옵션을 설명
     
-    `OPTIONS`   대상 리소스에 통신 가능 옵션을 설명
-
-    `CONNECT`   대상 자원으로 식별되는 서버에 대한 터널 설정
-    
-    `TRACE` 리소스 경로를 따라 메세지 루프백 테스트 수행
+        `CONNECT`   대상 자원으로 식별되는 서버에 대한 터널 설정
+        
+        `TRACE` 리소스 경로를 따라 메세지 루프백 테스트 수행
 
 
 * HTTP 메서드 속성
@@ -372,4 +372,113 @@
         - 실제로는 `GET` , `HEAD` 정도만 캐시로 사용
             1. `POST` , `PATCH`  는 본문 내용까지 캐시 키로 고려해야하는데 구현이 쉽지 않다.
 
-`출처` https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/lecture/61370?tab=curriculum
+
+# HTTP 메서드 활용
+
+* 클라이언트 -> server 데이터 전송
+    1. 데이터 전송 방법
+        
+            1. 쿼리 파라미터를 통한 데이터 전송
+                - GET
+                - 정렬 필터(검색어)
+            
+            2. 메세지 바디를 통한 데이터 전송
+                - POST, PUT, PATCH
+                - 회원가입, 상품주문, 등록, 변경
+    
+    2. 데이터 전송 상황
+    
+            1. 정적 데이터 조회  ex) /static/start.jpg
+                - 쿼리 파라미터 없이 리소스 경로로 단순하게 조회
+                - GET 사용
+       
+            2. 동적 데이터 조회  ex) /search?q=hello&hl=ko
+                - GET 사용
+                - 쿼리 파라미터를 사용해서 데이터 전달
+                - 주로 검색, 게시판 필터로 사용
+    
+            3. HTML Form 데이터 전송
+                - GET, POST 전송가능
+                - GET = 쿼리 파라미터로 전송됨
+                - POST = 메세지 바디로 전송됨
+                - multipart/form-data 파일을 전송하기 위한 Content-Type
+       
+            4. HTTP API 데이터 전송
+                - 서버와 서버간의 백엔드 시스템 통신
+                - ajax 통신
+                - 주로 Content-Type: application/json 을 사용
+
+* HTTP API 설계 예시
+    `참고` https://restfulapi.net/resource-naming
+    1. `POST` 기반
+        
+        회원 목록 `GET` /members
+
+        회원 등록 `POST` /members
+
+        회원 조회 `GET` /members/{id}
+
+        회원 수정 `PATCH` `PUT` `POST` /members/{id}
+
+        회원 삭제 `DELETE` /members/{id}
+
+            1. 클라이언트의 요청 POST /members
+    
+            2. server에서 새로 등록된 리소스에 대한 URI값을 반환해준다. 
+                응답 데이터 예시
+       
+                HTTP/1.1 201 Created
+                Content-Type: application/json
+                Content_Length: 33
+                Location: /members/100
+       
+                {
+                    "username": "choi",
+                    "age": 28
+                }
+    
+            3. 이러한 형식을 컬렉션(Collection)이라 부른다.
+                서버가 관리하는 리소스 디렉토리
+                서버가 리소스 URI를 생성하고 관리
+
+    2. `PUT` 기반 (파일이 존재한다면 지우고 새로 생성하는게 맞기 때문에 파일 예시가 제일 적당)
+    
+        파일 목록 `GET` /files
+    
+        파일 조회 `GET` /files/{filename}
+    
+        파일 등록 `PUT` /files/{filename}
+    
+        파일 삭제 `DELETE` /files/{filename}
+    
+        파일 대량 등록 `POST` /files
+        
+            1. 클라이언트가 리소스 URI를 알고 있어야한다.
+                POST와는 다르게 등록시에도 클라이언트에서 리소스의 URI를 직접 지정해서 등록하게된다.
+       
+            2. 이러한 형식을 스토어(Store)이라 부른다.
+                클라이언트가 관리하는 리소스 저장소
+                클라이언트가 리소스의 URI를 알고 관리함
+
+    3. HTML Form 기반 (`GET` `POST`만 지원)
+    
+        회원 목록 `GET` /members
+        
+        회원 등록 폼 `GET` /members/new
+    
+        회원 등록 `POST` /members/new
+
+        회원 조회 `GET` /members/{id}
+    
+        회원 수정 폼 `GET` /members/{id}/edit
+       
+        회원 수정 `POST` /members/{id}/edit
+    
+        회원 삭제 `POST` /members/{id}/delete
+
+            1. HTML Form은 GET, POST만 지원
+            2. GET, POST만 지원하기 때문에 여러 제약이 있고 이 제약을 해결하기 위해 컨트롤 URI를 사용
+                - /new, /edit, /delete가 컨트롤 URI
+            3. HTTP 메서드로 해결하기 애매한 경우 컨트롤 URI를 사용
+
+`출처` https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/dashboard
