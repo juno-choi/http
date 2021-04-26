@@ -2,26 +2,26 @@
 
 * Internet Protocol (인터넷 프로토콜)
 
-    1. 복잡한 인터넷 망에서 client가 지정한 IP 주소(IP Address)로 데이터를 전달하는 역할
+    - 복잡한 인터넷 망에서 client가 지정한 IP 주소(IP Address)로 데이터를 전달하는 역할
 
-    2. 패킷(Packet)이라는 통신 단위로 데이터 전달
+    - 패킷(Packet)이라는 통신 단위로 데이터 전달
 
         `packet` [출발지IP][목적지IP][기타][전송데이터] 의 규칙으로 전송
 
 
 * IP 프로토콜의 한계
 
-    1. `비연결성`
+    - `비연결성`
 
         패킷을 받을 대상이 없거나 받을 수 없는 서비스 불능 상태여도 패킷은 일방적으로 전송돼고 전송한 client는 전송이 성공한 것만 확인할 수 있을 뿐 상대방이 성공적으로 전송한 내용을 받았는지를 확인할 수 없다.
 
-    2. `비신뢰성`
+    - `비신뢰성`
 
         위 비연결성, 물리적인 이유로 인한 중간의 패킷의 손실 가능성
 
         패킷의 전송 속도차나 환경차이에 의한 순서의 확실성이 불확실함
 
-    3. `프로그램 구분`
+    - `프로그램 구분`
 
         하나의 IP에서 여러개의 어플리케이션이 동작하고 있을때 client가 원하는 어플리케이션에 데이터를 전송할 수 없음
 
@@ -56,17 +56,17 @@
 <img src="https://blog.kakaocdn.net/dn/xvO9P/btq3mpjxJXn/tLb8gOFeTr3O57ymSK8zc0/img.png" alt="protocol"></img>
 * Transmission Control Protocol (전송 제어 프로토콜)
 
-    1. `연결지향`
+    - `연결지향`
 
         3 way handshake를 통해 client와 데이터를 전송 받을 server의 상태를 확인하여 데이터를 전송
 
         실제로 물리적으로 연결된 상태는 아니며 논리적인 연결 상태
 
-    2. `데이터 전달 보증`
+    - `데이터 전달 보증`
 
         데이터를 전송했을 때 데이터를 받았다는 server의 응답을 반환받을 수 있다.
 
-    3. `순서 보장`
+    - `순서 보장`
 
         데이터의 패킷의 순서가 달라졌을 때 순서가 틀린 부분부터 데이터를 모두 버리고 재전송을 요청
 
@@ -87,41 +87,41 @@
 
 * User Datagram Protocol (사용자 데이터그램 프로토콜)
 
-    1. IP와 거의 같고 PORT와 체크썸만 추가
-    2. 데이터 전달 및 순서가 보장되지 않지만, 단순하고 빠름
-    3. TCP는 검증하는 프로세스가 많아 UDP가 훨씬 빠름
-    4. 기능이 거의 없지만 사용자가 application에서 수정하여 사용할 수 있어 TCP보다 유연하게 사용 가능
+    - IP와 거의 같고 PORT와 체크썸만 추가
+    - 데이터 전달 및 순서가 보장되지 않지만, 단순하고 빠름
+    - TCP는 검증하는 프로세스가 많아 UDP가 훨씬 빠름
+    - 기능이 거의 없지만 사용자가 application에서 수정하여 사용할 수 있어 TCP보다 유연하게 사용 가능
 
 # PORT
 
 * 하나의 client가 여러 server와 동시에 통신
 
-    1. IP를 집주소라고 생각한다면 port는 해당 집에서 살고 있는 사람으로 생각하면 좋을거 같다. IP 주소를 통해 집을 찾고 port번호를 통해 해당 사람을 찾아서 데이터를 전송해주는 것
-    2. 0 ~ 65535 까지 사용이 가능하지만 0 ~ 1023은 잘 알려진 port로 사용하지 않는 것이 좋다.
+    - IP를 집주소라고 생각한다면 port는 해당 집에서 살고 있는 사람으로 생각하면 좋을거 같다. IP 주소를 통해 집을 찾고 port번호를 통해 해당 사람을 찾아서 데이터를 전송해주는 
+    - 0 ~ 65535 까지 사용이 가능하지만 0 ~ 1023은 잘 알려진 port로 사용하지 않는 것이 좋다.
 
 # DNS
 
 * Dmain Name System (도메인 네임 시스템)
-    1. ip의 단점을 보완
+    - ip의 단점을 보완
         1. ip는 기억하기 어렵다
         2. ip는 변경될 수 있다.
-    2. goole.com -> 192.168.1.2로 DNS server에 등록해놓으면 도메인명으로만 ip 주소로 접근할 수 있다.
+    - goole.com -> 192.168.1.2로 DNS server에 등록해놓으면 도메인명으로만 ip 주소로 접근할 수 있다.
     
 # URI
 <img src="https://blog.kakaocdn.net/dn/uyjWy/btq3mhTCpOy/dBYTP97rxsBMc8qS5hxqF0/img.png" alt="3 way handshake"></img>
 * Uniform Resource Identifier
 
-    1. `Uniform` 리소스 식별하는 통일된 방식
-    2. `Resource` 자원, URI로 식별할 수 있는 모든 것
-    3. `Identifier` 다른 항목과 구분하는데 필요한 정보
+    - `Uniform` 리소스 식별하는 통일된 방식
+    - `Resource` 자원, URI로 식별할 수 있는 모든 것
+    - `Identifier` 다른 항목과 구분하는데 필요한 정보
 
     
 * URL
   
-    1. `Locator` 리소스가 있는 위치를 지정
-    2. 대부분 우리가 웹 브라우저에서 사용하는 방식
-    3. ex) http://www.example.com/serch?idx=12&page=1
-    4. scheme://[userinfo@]host[:port][/path][?query][#fragment]
+    - `Locator` 리소스가 있는 위치를 지정
+    - 대부분 우리가 웹 브라우저에서 사용하는 방식
+    - ex) http://www.example.com/serch?idx=12&page=1
+    - scheme://[userinfo@]host[:port][/path][?query][#fragment]
         - `scheme`
             1. 주로 프로토콜 사용
             2. 어떤 방식으로 자원에 접근할 것인가 하는 규칙 (http, https, ftp)
@@ -146,8 +146,8 @@
             2. server와 통신하는 정보는 아니고 html 내부에서 사용
 * URN
     
-    1. `Name` 리소스에 이름을 부여
-    2. ex) book:isbn:72989
+    - `Name` 리소스에 이름을 부여
+    - ex) book:isbn:72989
     
 # 웹 브라우저 요청 흐름
 
@@ -170,16 +170,16 @@
 
 * HyperText Transfer Protocol
 
-    1. 최초에는 HTML과 TEXT를 전송하기 위해 고안됨
-    2. 현재는 image, 음성, 영상, 파일, json 등 거의 모든 형태의 데이터를 전송
+    - 최초에는 HTML과 TEXT를 전송하기 위해 고안됨
+    - 현재는 image, 음성, 영상, 파일, json 등 거의 모든 형태의 데이터를 전송
     
     
 * HTTP 역사
-    1. HTTP/0.9 1991년 : GET만 지원, HTTP 헤더 지원하지 않음
-    2. HTTP/1.0 1996년 : 메서드, 헤더 추가
-    3. HTTP/1.1 1997년 : 가장 많이 사용되는 버전
-    4. HTTP/2   2015년 : 성능 개선
-    5. HTTP/3   진행중  : TCP 대신 UDP 사용 및 성능 개선  
+    - HTTP/0.9 1991년 : GET만 지원, HTTP 헤더 지원하지 않음
+    - HTTP/1.0 1996년 : 메서드, 헤더 추가
+    - HTTP/1.1 1997년 : 가장 많이 사용되는 버전
+    - HTTP/2   2015년 : 성능 개선
+    - HTTP/3   진행중  : TCP 대신 UDP 사용 및 성능 개선  
     
 
 # HTTP 특징
@@ -189,12 +189,12 @@
     
 
 * Stateful, Stateless
-    1. Stateful 상태유지 프로토콜
+    - Stateful 상태유지 프로토콜
         
         - client의 요청을 server 측면에서 항상 같은 server에서 요청을 받아 응답해야한다.
         - server가 중간에 장애가 나면 client를 다시 처음부터 다른 server에 요청을 해야한다.
        
-    2. Stateless 무상태 프로토콜
+    - Stateless 무상태 프로토콜
         
         - client의 요청을 server 측면에서 아무 server나 요청을 받아 응답한다.
         - server가 중간에 장애가 나도 client는 다른 server를 사용하여 요청을 진행할 수 있다.
@@ -229,8 +229,8 @@
        
 1. 요청 메세지 - 시작라인
 
-    1. start-line = `request-line`
-    2. `request-line` 'http method' + '(공백)' + '/' + '요청대상' + '(공백)' + '/' + 'version' 의 구조
+    - start-line = `request-line`
+    - `request-line` 'http method' + '(공백)' + '/' + '요청대상' + '(공백)' + '/' + 'version' 의 구조
             
         - `http method` 
             
@@ -251,8 +251,8 @@
 
 2. 응답 메세지 - 시작라인
     
-    1. start-line = `status-line`
-    2. `status-line` 'version' + '/' + status-code + '/' + 'reason-phrase'
+    - start-line = `status-line`
+    - `status-line` 'version' + '/' + status-code + '/' + 'reason-phrase'
     
         - `version`
           
@@ -273,9 +273,9 @@
 
 3. HTTP HEADER
 
-    1. header-field - field-name":"`OWS`field-value`OWS`    (OWS:띄어쓰기 허용)
-    2. filed-name은 대소문자 구분이 없음
-    3. 용도
+    - header-field - field-name":"`OWS`field-value`OWS`    (OWS:띄어쓰기 허용)
+    - filed-name은 대소문자 구분이 없음
+    - 용도
         - HTTP 전송에 필요한 모든 부가정보
         - 표준 헤더가 존재함
         - 필요시 임의의 헤더 추가 가능
@@ -283,8 +283,8 @@
 
 4. HTTP 메세지 바디
     
-    1. 실제 전송할 데이터
-    2. HTML, image, 음성, 파일 등
+    - 실제 전송할 데이터
+    - HTML, image, 음성, 파일 등
     
 
 5. HTTP는 매우 단순하며 확장도 가능함
@@ -293,22 +293,22 @@
 # HTTP 메서드
 
 * HTTP 설계
-    1. <span style="color:red">회원</span> 목록 `조회`  
+    - <span style="color:red">회원</span> 목록 `조회`  
        `get` <span style="color:red">/members</span>
-    2. <span style="color:red">회원</span> `조회`  
+    - <span style="color:red">회원</span> `조회`  
        `get` <span style="color:red">/members</span>/{id}   
-    3. <span style="color:red">회원</span> `등록`  
+    - <span style="color:red">회원</span> `등록`  
        `post`  <span style="color:red">/members</span>/{id}   
-    4. <span style="color:red">회원</span> `수정`  
+    - <span style="color:red">회원</span> `수정`  
        `put` <span style="color:red">/members</span>/{id}
-    5. <span style="color:red">회원</span> `삭제`  
+    - <span style="color:red">회원</span> `삭제`  
        `delete` <span style="color:red">/members</span>/{id}
     
 
 * 요구사항에 따른 URI 설계
-    1. API URI는 resource를 먼저 식별하고 resource를 가지고 설계해야함
-    2. 요구사항에 따른 resource는 <span style="color:red">회원</span>이 resource가 됨 
-    3. resource와 행동을 분리하여 리소스는 URI가 되고 행위(`조회`,`등록`,`수정`,`삭제`)는 메서드가 됨
+    - API URI는 resource를 먼저 식별하고 resource를 가지고 설계해야함
+    - 요구사항에 따른 resource는 <span style="color:red">회원</span>이 resource가 됨 
+    - resource와 행동을 분리하여 리소스는 URI가 되고 행위(`조회`,`등록`,`수정`,`삭제`)는 메서드가 됨
     
 
 * 메서드의 종류
@@ -317,28 +317,28 @@
 
         `GET`   조회
         
-        1. 서버에 전달하고 싶은 데이터는 QUERY를 통해 전달
-        2. 메세지 바디를 사용하여 데이터를 전달할 수 있지만 권장하지 않음
+        - 서버에 전달하고 싶은 데이터는 QUERY를 통해 전달
+        - 메세지 바디를 사용하여 데이터를 전달할 수 있지만 권장하지 않음
       
         `POST`  요청, 등록
     
-        1. 메세지 바디를 통해 서버로 데이터 전달
-        2. 주로 데이터 신규 등록, 프로세스에 사용
-        3. 프로세스는 예로 주문에서 결제완료 -> 배달시작 처럼 값변경을 넘어 프로세스의 상태가 변경되는 경우에 사용됨
+        - 메세지 바디를 통해 서버로 데이터 전달
+        - 주로 데이터 신규 등록, 프로세스에 사용
+        - 프로세스는 예로 주문에서 결제완료 -> 배달시작 처럼 값변경을 넘어 프로세스의 상태가 변경되는 경우에 사용됨
         
         `PUT`   대체
     
-        1. 리소스를 완전히 대체 (기존 리소스의 중복되는 내용일지라도 모든 필드값을 그대로 입력해야함)
-        2. 없으면 생성
-        3. `POST`와 차이점은 클라이언트가 리소스 위치를 알고 URI 지정하여 사용
+        - 리소스를 완전히 대체 (기존 리소스의 중복되는 내용일지라도 모든 필드값을 그대로 입력해야함)
+        - 없으면 생성
+        - `POST`와 차이점은 클라이언트가 리소스 위치를 알고 URI 지정하여 사용
     
         `PATCH` 부분 변경
         
-        1. 리소스를 부분적으로 변경 (`put`과 다르게 부분적인 필드값만 보내면 해당 필드만 수정됨)
+        - 리소스를 부분적으로 변경 (`put`과 다르게 부분적인 필드값만 보내면 해당 필드만 수정됨)
     
         `DELETE`    삭제
         
-        1. 리소스 제거
+        - 리소스 제거
 
     - 기타 메서드
 
@@ -353,19 +353,19 @@
 
 * HTTP 메서드 속성
 
-    1. Safe Method `안전`
+    - Safe Method `안전`
     
         - 호출해도 리소스를 변경하지 않는다.
         - `GET` , `HEAD`
     
-    2. Idempotent Method `멱등`
+    - Idempotent Method `멱등`
     
         - 한번 호출하든 두번 호출하든 100번 호출하든 결과가 똑같다.
         - `GET` , `PUT` , `DELETE`
         - PUT은 리소스 자체를 완전히 대체하기 때문에 같은 요청을 계속해서 반복하면 같은 리소스가 대체되는 것이기때문에 동일하다.
         - `멱등`이 필요한 이유는 `멱등`한 메서드는 몇번을 호출해도 결과가 동일하고 리소스에 미치는 영향이 동일하기 때문에 서버 내부의 이유로 정상 응답을 못 주었을 때, 클라이언트가 같은 요청을 동일하게 반복해도 되는지에 대한 판단 근거가 될 수 있다.
     
-    3. cacheable Method `캐시가능`
+    - cacheable Method `캐시가능`
     
         - 웹 브라우저에 똑같은 리소스를 또 다운로드 하지 않고 웹 브라우저 자체에 캐시로 저장하여 사용
         - `GET` , `HEAD` , `POST` , `PATCH` 
@@ -376,7 +376,7 @@
 # HTTP 메서드 활용
 
 * 클라이언트 -> server 데이터 전송
-    1. 데이터 전송 방법
+    - 데이터 전송 방법
         
             1. 쿼리 파라미터를 통한 데이터 전송
                 - GET
@@ -386,7 +386,7 @@
                 - POST, PUT, PATCH
                 - 회원가입, 상품주문, 등록, 변경
     
-    2. 데이터 전송 상황
+    - 데이터 전송 상황
     
             1. 정적 데이터 조회  ex) /static/start.jpg
                 - 쿼리 파라미터 없이 리소스 경로로 단순하게 조회
@@ -410,7 +410,7 @@
 
 * HTTP API 설계 예시
     `참고` https://restfulapi.net/resource-naming
-    1. `POST` 기반
+    - `POST` 기반
         
         회원 목록 `GET` /members
 
@@ -441,7 +441,7 @@
                 서버가 관리하는 리소스 디렉토리
                 서버가 리소스 URI를 생성하고 관리
 
-    2. `PUT` 기반 (파일이 존재한다면 지우고 새로 생성하는게 맞기 때문에 파일 예시가 제일 적당)
+    - `PUT` 기반 (파일이 존재한다면 지우고 새로 생성하는게 맞기 때문에 파일 예시가 제일 적당)
     
         파일 목록 `GET` /files
     
@@ -460,7 +460,7 @@
                 클라이언트가 관리하는 리소스 저장소
                 클라이언트가 리소스의 URI를 알고 관리함
 
-    3. HTML Form 기반 (`GET` `POST`만 지원)
+    - HTML Form 기반 (`GET` `POST`만 지원)
     
         회원 목록 `GET` /members
         
@@ -480,5 +480,112 @@
             2. GET, POST만 지원하기 때문에 여러 제약이 있고 이 제약을 해결하기 위해 컨트롤 URI를 사용
                 - /new, /edit, /delete가 컨트롤 URI
             3. HTTP 메서드로 해결하기 애매한 경우 컨트롤 URI를 사용
+ 
+   
+# HTTP 상태코드
+
+* 1XX (Informational)
+    - 요청이 수신되어 처리중
+    - 거의 사용하지 않음
+  
+  
+* 2XX (Successful)
+    - `200` Ok
+        - 정상 처리
+    - `201` Created
+        - 요청 성공해서 새로운 리소스 생성
+    - `202` Accepted
+        - 요청이 접수되었으나 처리 프로세스는 진행되지 않았음 (추후에 프로세스 진행됨)
+    - `204` No Content
+        - 서버가 요청을 성공적으로 수행했지만, 응답할 데이터가 없음
+        - ex) 웹 문서 편집기에 save버튼
+            1. 문서 편집 중 save를 누름
+            2. 저장에 성공했다면 204 상태코드를 return함
+            3. 하지만 화면상에 변화가 생기거나 데이터상에 변화가 생기는건 없음
+            4. 저장에 실패했다면 실패 상태코드를 return하여 사용자에게 알림
+    
+    
+* 3XX (Redirection)
+    - 요청을 완료하기 위해 유저 client에 추가 조치 필요
+    - 웹 브라우저는 3xx 응답에 location 값이 존재하면 location uri로 리다이렉션
+    - 영구적 리다이렉션
+        - ex) 사용하던 페이지의 url이 변경되었을때 변경 전 url 입력시 301 상태코드를 반환해주고 location 값에 새로운 url로 반환한다.
+        
+                301 Moved Permanently 
+                - 리다이렉트 요청시 요청 메서드가 GET으로 변경되고 본문이 제거될 수 있음
+          
+                308 Pernanent Redirect (영구 리다이렉션)
+                - 301 상태코드와 기능은 동일
+                - 리아이렉트 요청시 요청 메스드와 본문 유지
+
+    - 일시적인 리다이렉션
+        - ex) 결제 완료시 주문 완료 화면으로 이동
+        
+                302 Found
+                - 리다이렉트시 요청 메서드가 GET으로 변하고 본문이 제거될 수 있음
+          
+                307 Temporary Redirect
+                - 302와 기능 같음
+                - 리다이렉트시 요청 메서드와 본문 유지
+          
+                303 See Other
+                - 302와 기능 같음
+                - 레다이렉트시 요청 메서드가 GET으로 변경
+
+        - PRG : Post / Redirect / Get
+            1. POST 요청상태의 url에서 새로고침을 하면 POST가 중복되어 요청되는 상태
+            2. 주문을 POST 요청으로 완료 후 redirect를 주문 완료의 GET 페이지로 보내서 해결
+            3. url이 이미 POST -> GET으로 리다이렉트 되었기 때문에 새로고침을 잘못 눌러도 GET 페이지로 연결
+    
+    - 기타 리다이렉션
+        
+            300 Multiple Choices
+            - 잘 안씀
+      
+            304 Not Modified
+            - 캐시를 목적으로 사용
+            - 클라이언트의 리소스가 수정되지 않았음을 알려주고 클라이언트는 로컬 PC에 저장된 캐시를 재사용한다.
+            - 캐시를 재사용하므로 네트워크 다운로드 사용량이 줄어듦
+            - 304 응답은 메세지 바디를 포함하면 안된다. (로컬 캐시를 사용하므로)
+        
+
+* 4XX (Client Error)
+    - 클라이언트의 잘못된 요청
+    - 오류 원인이 클라이언트
+    - 오류의 원인이 클라이언트에서 잘못된 요청, 데이터이기 때문에 재시도를 요청해도 실패함
+    
+            400 Bad Request
+            - 요청 내용이 오류
+            - 클라이언트는 요청 내용을 수정해서 다시 보내야함
+
+            401 Unauthorized
+            - 클라이언트가 해당 리소스에 대한 인증이 필요
+            - 401 오류 발생시 응답에 WWW-Authenticate 헤더와 함께 인증 방법을 설명
+            
+            403 Forbidden
+            - 서버가 요청을 이해했지만 승인을 거부함
+            - 접근 권한이 없는 경우
+    
+            404 Not Found
+            - 요청 리소스 서버가 존재하지 않음
+            - 또는 권한이 없는 클라이언트에게 서버단에서 해당 리소스를 숨기고 싶을 때
+    
+
+* 5XX (Server Error)
+    - 서버 문제로 오류 발생
+    - 서버 문제이기 때문에 재시도 하면 성공할 수도 있음
+    - 5XX 에러는 서버에서 문제가 발생했을 때 사용하는 에러이므로 서버의 로직상 에러 상태 코드를 만들어내야할때는 4XX이나 2XX으로 에러를 내야한다.
+    
+            500 Internal Server Error
+            - 서버 내부 문제 오류
+            - 애매한 서버 오류는 모두 500
+    
+            503 Service Unavailable
+            - 서비스 이용불가
+            - 서버 터졌음
+            - 혹은 서버를 일부러 다운시켜놓은 경우
+            - Retry-After 헤더 필드로 얼마뒤에 server가 복구될지 알려줄 수 있음
+    
+            
 
 `출처` https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/dashboard
