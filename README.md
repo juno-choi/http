@@ -587,5 +587,142 @@
             - Retry-After 헤더 필드로 얼마뒤에 server가 복구될지 알려줄 수 있음
     
             
+# HTTP HEADER
+
+* 표현
+    - Content-Type : 표현 데이터의 형식
+        - 미디어 타입, 문자 인코딩
+    - Content-Encoding : 표현 데이터의 압축 방식
+        - 표현 데이터를 압축하기 위해 사용
+        - 데이터를 전송하기 전 압축 후 인코딩 헤더 추가하여 정보 전달
+    - Content-Language : 표현 데이터의 자연 언어
+        - 표현 데이터의 잔연 언어 표현 ex) ko, en, en-US
+    - Content-Length : 표현 데이터의 길이
+        - Transfer-Encoding(전송 코딩)을 사용할땐 사용하면 안됨
+    
+
+* 콘텐츠 협상 (Content negotiation)
+    - Accept : 클라이언트가 선호하는 미디어 타입 전달
+    - Accept-Charset : 클라이언트가 선호하는 문자 인코딩
+    - Accept-Encoding : 클라이언트가 선호하는 압축 인코딩
+    - Accept-Language : 클라이언트가 선호하는 자연 언어
+        
+    - 협상 헤더는 요청시에만 사용됨
+    - 우선순위가 필요할땐 Quaility Values(q) 값 사용
+        - Quaility Values(q) 사용 예시1
+            1. ex) Accept-Language : ko-KR, ko;q=0.9, en-US;q=0.8,en;q=0.7
+            2. q값이 생략되면 1
+            3. q는 0~1까지의 숫자이고 클수록 우선순위가 높음
+        - Quaility Values(q) 사용 예시2
+            1. ex) Accept : text/*, text/plain, text/plain;format=flowed, */*
+            2. 위 예시일 경우 우선순위는
+                1. text/plain;format=flowed
+                2. text/plain
+                3. text/*
+                4. \*/*
+
+        
+* 전송 방식
+    - Content-Length 단순전송
+    - Content-Encoding 압축 전송
+        - Content-Encoding값을 추가하여 클라이언트가 압축을 풀때 사용
+    - Transfer-Encoding 분할 전송
+        - chunked
+            1. 용량이 너무 클때 데이터를 쪼개서 계속 보냄
+            2. \\r\n이 종료라는 표시
+    - Range, Content-Range
+        - 범위를 지정해서 범위만큼 데이터를 전송하고 받음
+    
+
+* 일반 정보
+    - From
+        - 유저 에이전트의 이메일 정보
+        - 잘 사용되진 않음
+        - 검색 엔진 같은 곳에서 주로 사용
+        - 요청에서 사용
+    - Referer
+        - 현재 요청된 url에 접속하기 전 사이트의 url
+        - 접속 경로를 분석할 수 있음
+        - 요청에서 사용
+    - User-Agent
+        - 클라이언트의 애플리케이션 정보(웹 브라우저 정보 등)
+        - 특정 브라우저에서 버그가 생기는걸 확인할 수 있음
+        - 브라우저 통계를 낼때 사용 
+        - 요청에서 사용
+    - Server
+        - web server의 origin server의 정보
+        - ex) Apache, Nginx
+        - 응답에서 사용
+    - Date
+        - 메세지가 발생한 날짜와 시간
+        - 응답에서 사용
+
+
+* 특별한 정보
+    - Host
+        - 진짜 중요한 필수 값
+        - 하나의 IP 주소에 여러 도메인이 적용되어 있을 때 구분하기 위한 값
+        - 요청에서 사용
+    - Location
+        - 페이지 리다이렉션 값
+        - 3XX 응답 결과에 Location 헤더가 있으면 Location 값으로 자동 이동
+        - 201 응답 결과에 Location 헤더가 있으면 요청에 의해 생성된 리소스 URI 값
+    - Allow
+        - 허용 가능한 HTTP 메서드
+        - 405 (Method Not Allowed) 응답에 포함해야함
+        - 클라이언트가 잘못된 HTTP 메서드를 전송했을 때 해당 URL에서 사용가능한 HTTP 메서드를 알려줌
+    - Retry-After
+        - 503 응답 결과에서는 서비스가 언제까지 불능인지 알려줄 수 있음
+        - 날짜나 초단위로 표시할 수 있음
+    
+
+* 인증
+    - Authorization
+        - 클라이언트 인증 정보를 서버에 전달
+        - Authorization: Basic xxxxxxxxxxxx
+        - 인증 메커니즘에 따라 헤더의 value 값이 달라진다.
+    - WWW-Authenticate
+        - 리로스 접근시 필요한 인증 방법 정의
+        - 401 Unauthorized 응답 결과와 함께 사용
+    
+
+* 쿠키
+    - Set-Cookie
+        - 서버에서 클라이언트로 쿠키 전달(응답)
+        - 서버에서 전달받은 클라이언트 웹브라우저의 쿠키 저장소에 쿠키로 저장됨
+    - Cookie
+        - 클라이언트가 서버에서 받은 쿠키를 저장하고, HTTP 요청시 서버로 전달
+    - 모든 요청에 쿠기를 자동 포함
+        - 네트워크 추가적 트래픽 유발
+        - 최소한의 정보만 사용하는걸 추천함 (세션 id, 인증 토큰)
+        - 서버에 전송하지 않고 웹 브라우저 내부에 데이터를 저장해서 사용하고 싶으면 web storage 사용
+    - 사용처
+        - 사용자 로그인 세션관리
+        - 광고 정보 트래킹
+    - 보안에 민감한 데이터는 저장하면 안됨!
+    - Expires, max-age 쿠키의 생명주기
+        - expires : 만료일이 되면 쿠키 삭제
+        - max-age : 초단위로 시간이 지나 0이 되거나 음수로 지정하면 쿠키 삭제
+        - 세션 쿠키 : 만료 날짜를 생략하면 브라우저 종료시 자동 삭제
+        - 영속 쿠키 : 만료 날짜를 입력하면 해당 날짜까지 유지
+    - 쿠키의 domain
+        - domain값을 명시하면 명시한 도메인과 서브 도메인을 포함하여 쿠키에 접근이 가능함
+        - domain값을 생략 시 하위 도메인에서는 접근이 불가능하고 쿠기가 생성된 해당 도메인에서만 쿠키에 접근이 가능함
+    - 쿠키의 path
+        - 경로를 포함한 하위 경로만 쿠키 접근 가능
+    - 쿠키의 보안
+        - Secure
+            1. 원래 쿠키는 http, https 모두 접근이 가능한데 Secure 적용시 https에서만 접근 가능
+        - httpOnly
+            1. XSS 공격 방지
+               - XXS 공격이란 url자체에 악성 script를 주입하여 javascript로 쿠키에 접근하여 데이터를 조작하는 공격
+            2. javascript에서 쿠키에 접근 불가
+        - SameSite
+            1. CSRF 공격 방지
+               - CSRF 공격이란 A 도메인에서 B 도메인의 등록 URL를 사용하여 무작위로 등록시키거나 다른 계정을 도용하여 등록시키는 방법으로 공격  
+            2. 요청하는 도메인과 쿠키에 설정된 도메인이 같은 경우에만 쿠키를 전송
+    
+    
+
 
 `출처` https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/dashboard
