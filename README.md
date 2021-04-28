@@ -723,6 +723,85 @@
             2. 요청하는 도메인과 쿠키에 설정된 도메인이 같은 경우에만 쿠키를 전송
     
     
+# 캐시
+
+* 캐시란
+    - 데이터가 변경되지 않을때 데이터를 한번 다운받아서 웹 브라우저에 저장해둔다.
+    - 네트워크 사용량을 줄일 수 있다.
+    - 브라우저 로딩 속도가 매우 빨라짐
+    - 빠른 사용자 경험이 가능해짐
+    - 캐시 유효 시간이 초가되면 서버를 통해 데이터를 다시 조회하고 캐시를 갱신한다.
 
 
+* 검증 헤더와 조건부 요청 헤더
+    - Last-Modified, If-Modified-Since
+        - 캐시 데이터와 서버 데이터가 같은지 검증하는 데이터
+        - 캐시 유효시간이 초과해서 서버에 다시 요청할 경우 다음과 같은 2가지 경우가 존재
+            - 서버에서 기존 데이터를 변경해서 캐시에 저장되는 데이터가 변경되었을 경우
+            - 서버에서 기존 데이터를 변경하지 않아서 캐시에 저장되는 데이터가 동일할 경우
+        - 위 같은 경우에 캐시를 검증하는 방법
+            - 헤더에 Last-Modified 헤더를 추가하여 서버에서 응답
+            - 캐시에 Last-Modified값을 갖고 http 요청을 server로 보낼때 if-modified-since 값을 헤더에 추가하여 보냄
+            - server에서 해당 소스의 수정일과 client의 http 요청 header의 if-modified-since 값을 비교하여 수정이 안됐을 경우 304 Not Modified 상태코드를 보내주며 HTTP Body 값을 제외하고 응답 값을 보낸다.
+    - ETag, If-None-Match
+        - Entity Tag
+        - 캐시용 데이터에 임의의 고유 버전 이름을 달아줌
+        - 데이터가 변경 되면 태그를 변경
+        - ETag 값만 비교해서 데이터를 서버로 부터 받을지 캐시를 사용할지 결정
+        - 데이터가 변경된게 없다면 위 방법과 같게 304 Not Modified 상태코드 반환과 HTTP Body가 없이 응답을 해준다.
+        - 캐시 제어 로직을 서버에서 완전하게 관리가 가능함
+            - 예시로 서버에서 배포하고 싶은 시기에 ETag값을 변경하여 변경된 값을 한번에 배포가 가능
+    
+
+* 캐시와 조건부 요청 헤더
+    - Cache-Control 캐시 제어
+        - Cache-Control: max-age : 캐시 유효 시간, 초단위
+        - Cache-Control: no-cache : 데이터는 캐시해도 되지만 항상 서버에 검증하고 사용
+        - Cache-Control: no-store : 데이터가 민감한 정보이므로 저장하면 안됨
+    - Pragma 캐시 제어 (하위 호환)
+        - HTTP 1.0 하위 호환
+        - 거의 사용하지 않음
+    - Expires 캐시 만료일
+        - 캐시 만료일을 날짜로 지정
+        - HTTP 1.0 부터 사용
+        - Expires 보다 유연한 Cache-Control:max-age 사용을 권장
+        - 만약 Expires과 Cache-Control:max-age 함께 사용시 Cache-Control:max-age가 우선됨
+
+
+* 프록시 캐시
+    - 원 서버(Origin Server)로 부터 데이터를 응답 받는데 있어서 물리적인 거리가 멀어서 시간이 오래 걸릴 경우 사용자와 서버 사이에 프록시 서버를 두어 public 캐시로 저장한 뒤 사용자들이 원 서버에 접근하여 데이터를 가져오는 것이 아닌 프록시 서버로부터 데이터를 가져오게끔 해줌
+    - Cache-Control: public 캐시 : 다른 사용자들이 캐시를 확인 할 수 있음, public 캐시에 저장
+    - Cache-Control: private 캐시 : 해당 사용자만을 위한 캐시(기본값), private 캐시에 저장
+    - Cache-Control: s-maxage : 프록시 캐시에만 적용되는 max-age
+    - Age: (s) : 원 서버에서 응답 후 프록시 캐시 내에 머문 시간
+
+
+* 캐시 무효화
+    - 민감한 정보이거나 데이터가 계속해서 바뀌는 데이터의 경우
+    - 웹 브라우저에 캐시가 되지 않도록 해주는 방법
+        
+            Cache-Control: no-cache, no-store, must-revalidate
+            Pragma: no-cache
+        - Cache-Control: no-cache
+          
+            1. 데이터는 캐시하도 되지만 항상 서버에 검증하고 사용
+        - Cache-Control: no-store
+            
+            1. 데이터에 민감한 정보가 있으므로 저장하면 안됨
+        - Cache-Control: must-revalidate
+            
+            1. 캐시 만료 후 최초 조회시 원서버에 검증해야함
+
+            2. 원 서버 접근 실패시 반드시 오류가 발생해야함 : 504(Gateway Timeout)
+    
+            3. 캐시 유효 시간이라면 캐시를 사용함
+    
+            4. 서버 설정에 따라 원서버와 네트워크가 단절되었을 때 예전 데이터로 응답해버릴 경우가 있어서 원서버와 데이터가 단절일 경우 504 상태코드를 반환하게 한다.
+    
+            5. 돈과 관련된 업무거나 항상 정확해야하는 데이터일 경우
+          
+        - Pragma: no-cache
+            
+            1. HTTP 1.0 하위 버전으로 요청할 경우 대비
+    
 `출처` https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/dashboard
